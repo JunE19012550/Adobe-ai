@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือการใช้งาน Adobe Illustrator เบื้องต้น | Illustrator Beginner Hub</title>
+    
+    <!-- Google Fonts: Kanit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Kanit', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        ai: {
+                            orange: '#FF9A00',
+                            darkOrange: '#E67E00',
+                            bgDark: '#1A1A1A',
+                            accent: '#FFB833',
+                            lightBg: '#F8FAFC',
+                            cardBg: '#FFFFFF',
+                            border: '#E2E8F0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar and smooth transitions */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF9A00;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E67E00;
+        }
+        .bezier-handle {
+            cursor: grab;
+        }
+        .bezier-handle:active {
+            cursor: grabbing;
+        }
+        .tab-btn.active {
+            border-color: #FF9A00;
+            color: #FF9A00;
+            background-color: #FFF7ED;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-slate-900 border-2 border-ai-orange flex items-center justify-center text-ai-orange font-bold text-xl shadow-md">
+                        Ai
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg text-slate-900 tracking-tight block leading-tight">Illustrator 101</span>
+                        <span class="text-xs text-slate-500 font-normal">สื่อการเรียนรู้แบบโต้ตอบเบื้องต้น</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2">
+                    <button onclick="switchTab('lessons')" id="nav-lessons" class="tab-btn active px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2">
+                        <i data-lucide="book-open" class="w-4 h-4"></i> บทเรียน
+                    </button>
+                    <button onclick="switchTab('pathfinder')" id="nav-pathfinder" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-ai-orange transition-all duration-200 flex items-center gap-2">
+                        <i data-lucide="shapes" class="w-4 h-4"></i> จำลอง Pathfinder
+                    </button>
+                    <button onclick="switchTab('pentool')" id="nav-pentool" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-ai-orange transition-all duration-200 flex items-center gap-2">
+                        <i data-lucide="pen-tool" class="w-4 h-4"></i> ฝึก Pen Tool
+                    </button>
+                    <button onclick="switchTab('shortcuts')" id="nav-shortcuts" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-ai-orange transition-all duration-200 flex items-center gap-2">
+                        <i data-lucide="command" class="w-4 h-4"></i> คีย์ลัด
+                    </button>
+                    <button onclick="switchTab('workshop')" id="nav-workshop" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-ai-orange transition-all duration-200 flex items-center gap-2">
+                        <i data-lucide="palette" class="w-4 h-4"></i> เวิร์กชอป
+                    </button>
+                    <button onclick="switchTab('quiz')" id="nav-quiz" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-ai-orange transition-all duration-200 flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4"></i> แบบทดสอบ
+                    </button>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="hidden sm:block">
+                    <a href="#quiz" onclick="switchTab('quiz')" class="bg-ai-orange hover:bg-ai-darkOrange text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg shadow-sm hover:shadow transition-all duration-200 flex items-center gap-2">
+                        <span>ทดสอบความรู้</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1">
+            <button onclick="switchTab('lessons'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-orange-50 hover:text-ai-orange flex items-center gap-2">
+                <i data-lucide="book-open" class="w-4 h-4"></i> บทเรียนพื้นฐาน
+            </button>
+            <button onclick="switchTab('pathfinder'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-orange-50 hover:text-ai-orange flex items-center gap-2">
+                <i data-lucide="shapes" class="w-4 h-4"></i> จำลอง Pathfinder
+            </button>
+            <button onclick="switchTab('pentool'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-orange-50 hover:text-ai-orange flex items-center gap-2">
+                <i data-lucide="pen-tool" class="w-4 h-4"></i> ฝึกดัดเส้น Pen Tool
+            </button>
+            <button onclick="switchTab('shortcuts'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-orange-50 hover:text-ai-orange flex items-center gap-2">
+                <i data-lucide="command" class="w-4 h-4"></i> ตารางคีย์ลัด
+            </button>
+            <button onclick="switchTab('workshop'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-orange-50 hover:text-ai-orange flex items-center gap-2">
+                <i data-lucide="palette" class="w-4 h-4"></i> เวิร์กชอปโลโก้
+            </button>
+            <button onclick="switchTab('quiz'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-orange-50 hover:text-ai-orange flex items-center gap-2">
+                <i data-lucide="help-circle" class="w-4 h-4"></i> แบบทดสอบ
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Banner Section -->
+    <section class="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-12 md:py-16 px-4 sm:px-6 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#FF9A00_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-ai-orange/20 text-ai-accent border border-ai-orange/30 mb-4">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> เริ่มต้นกราฟิกเวกเตอร์อย่างมั่นใจ
+            </span>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+                เรียนรู้ <span class="text-ai-orange">Adobe Illustrator</span> ตั้งแต่ศูนย์
+            </h1>
+            <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-light leading-relaxed mb-8">
+                เว็บสื่อการสอนแบบคลีนๆ ที่ช่วยให้คุณเข้าใจหลักการออกแบบเวกเตอร์ เครื่องมือพื้นฐาน คีย์ลัดสำคัญ พร้อมเครื่องมือทดลองปฏิสัมพันธ์แบบจำลองจริง
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="switchTab('lessons')" class="bg-ai-orange hover:bg-ai-darkOrange text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-orange-500/20 flex items-center gap-2">
+                    <i data-lucide="play-circle" class="w-5 h-5"></i> เริ่มต้นบทเรียน
+                </button>
+                <button onclick="switchTab('pentool')" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-medium px-6 py-3 rounded-xl transition-all duration-200 flex items-center gap-2">
+                    <i data-lucide="mouse-pointer" class="w-5 h-5"></i> ทดลอง Pen Tool
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB 1: LESSONS (บทเรียนหลัก) -->
+        <div id="tab-lessons" class="tab-content block space-y-10">
+            
+            <!-- Section 1: Vector vs Raster -->
+            <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2.5 bg-orange-100 text-ai-orange rounded-xl">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">1. เข้าใจ Vector vs Raster</h2>
+                        <p class="text-slate-500 text-sm">หัวใจสำคัญที่ทำให้ Illustrator แตกต่างจาก Photoshop</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-ai-orange uppercase tracking-wider bg-orange-100 px-2.5 py-1 rounded-md">Vector (Illustrator)</span>
+                            <i data-lucide="maximize-2" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">กราฟิกสมการคณิตศาสตร์</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            สร้างจากจุด (Anchor Point) และเส้น (Path) ไม่ว่าจะขยายใหญ่เท่าตึกหรือย่อเล็กเท่าแสตมป์ **ภาพจะไม่แตกและคมชัดสมบูรณ์เสมอ** เหมาะกับงานโลโก้ ไอคอน และสิ่งพิมพ์
+                        </p>
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 flex items-center justify-center space-x-6">
+                            <div class="text-center">
+                                <svg class="w-20 h-20 mx-auto text-ai-orange" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" fill="currentColor" />
+                                </svg>
+                                <span class="text-xs text-slate-500 mt-1 block">ขยาย 1000% (ชัดแจ๋ว)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider bg-slate-200 px-2.5 py-1 rounded-md">Raster (Photoshop)</span>
+                            <i data-lucide="grid" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">กราฟิกพิกเซล (Pixel)</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            ประกอบขึ้นจากจุดสีตารางเล็กๆ ยิ่งขยายภาพ ความละเอียดพิกเซลจะแตกเป็นตารางสี่เหลี่ยม เหมาะกับงานภาพถ่าย หรืองานที่มีรายละเอียดเฉดสีซับซ้อน
+                        </p>
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 flex items-center justify-center space-x-6">
+                            <div class="text-center">
+                                <div class="w-20 h-20 mx-auto bg-slate-100 grid grid-cols-4 gap-0.5 p-1 border border-slate-300">
+                                    <div class="bg-orange-300"></div><div class="bg-orange-400"></div><div class="bg-orange-500"></div><div class="bg-orange-400"></div>
+                                    <div class="bg-orange-500"></div><div class="bg-orange-600"></div><div class="bg-orange-600"></div><div class="bg-orange-500"></div>
+                                    <div class="bg-orange-500"></div><div class="bg-orange-600"></div><div class="bg-orange-600"></div><div class="bg-orange-500"></div>
+                                    <div class="bg-orange-300"></div><div class="bg-orange-400"></div><div class="bg-orange-500"></div><div class="bg-orange-400"></div>
+                                </div>
+                                <span class="text-xs text-slate-500 mt-1 block">ขยายใหญ่ขึ้น (เห็นพิกเซลแตก)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Essential Tools -->
+            <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2.5 bg-orange-100 text-ai-orange rounded-xl">
+                        <i data-lucide="wrench" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">2. เครื่องมือหลักที่ต้องใช้งานให้เป็น</h2>
+                        <p class="text-slate-500 text-sm">กล่องเครื่องมือ (Toolbox) พื้นฐานที่จะเจอบ่อยที่สุด</p>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Tool 1 -->
+                    <div class="p-5 rounded-xl border border-slate-200 hover:border-ai-orange transition-all duration-200 bg-slate-50/50 hover:bg-white group">
+                        <div class="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold mb-3 group-hover:bg-ai-orange transition-colors">
+                            V
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Selection Tool</h3>
+                        <p class="text-slate-500 text-xs mb-2">คีย์ลัด: <kbd class="px-1.5 py-0.5 bg-slate-200 rounded text-slate-700 font-mono">V</kbd></p>
+                        <p class="text-slate-600 text-sm leading-normal">
+                            ใช้สำหรับคลิกเลือกวัตถุ เคลื่อนย้าย ปรับขนาด หรือย่อ/ขยายรูปทรงโดยรวม
+                        </p>
+                    </div>
+
+                    <!-- Tool 2 -->
+                    <div class="p-5 rounded-xl border border-slate-200 hover:border-ai-orange transition-all duration-200 bg-slate-50/50 hover:bg-white group">
+                        <div class="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold mb-3 group-hover:bg-ai-orange transition-colors">
+                            A
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Direct Selection Tool</h3>
+                        <p class="text-slate-500 text-xs mb-2">คีย์ลัด: <kbd class="px-1.5 py-0.5 bg-slate-200 rounded text-slate-700 font-mono">A</kbd></p>
+                        <p class="text-slate-600 text-sm leading-normal">
+                            ใช้คลิกเลือกเฉพาะจุด Anchor Point หรือเส้น Path เดี่ยวๆ เพื่อดัดแปลงโครงสร้างรูปทรง
+                        </p>
+                    </div>
+
+                    <!-- Tool 3 -->
+                    <div class="p-5 rounded-xl border border-slate-200 hover:border-ai-orange transition-all duration-200 bg-slate-50/50 hover:bg-white group">
+                        <div class="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold mb-3 group-hover:bg-ai-orange transition-colors">
+                            P
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Pen Tool</h3>
+                        <p class="text-slate-500 text-xs mb-2">คีย์ลัด: <kbd class="px-1.5 py-0.5 bg-slate-200 rounded text-slate-700 font-mono">P</kbd></p>
+                        <p class="text-slate-600 text-sm leading-normal">
+                            เครื่องมือทรงพลังที่สุดสำหรับวาดเส้นโค้ง อิสระ และสร้างเวกเตอร์รูปทรงแปลกใหม่
+                        </p>
+                    </div>
+
+                    <!-- Tool 4 -->
+                    <div class="p-5 rounded-xl border border-slate-200 hover:border-ai-orange transition-all duration-200 bg-slate-50/50 hover:bg-white group">
+                        <div class="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold mb-3 group-hover:bg-ai-orange transition-colors">
+                            M
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Shape Tools</h3>
+                        <p class="text-slate-500 text-xs mb-2">คีย์ลัด: <kbd class="px-1.5 py-0.5 bg-slate-200 rounded text-slate-700 font-mono">M / L</kbd></p>
+                        <p class="text-slate-600 text-sm leading-normal">
+                            เครื่องมือสร้างรูปทรงพื้นฐาน สี่เหลี่ยม (M), วงกลม (L), และดาว เพื่อนำมาประกอบเป็นงานกราฟิก
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Color Modes -->
+            <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2.5 bg-orange-100 text-ai-orange rounded-xl">
+                        <i data-lucide="palette" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">3. โหมดสีที่ต้องเลือกให้ถูกต้อง (RGB vs CMYK)</h2>
+                        <p class="text-slate-500 text-sm">ตั้งค่าสีให้เหมาะกับปลายทางของงาน</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border border-slate-200 rounded-xl p-6 bg-slate-50">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                            <h3 class="font-bold text-slate-900 text-lg ml-2">RGB Color Mode</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            ใช้สำหรับ **งานแสดงผลบนหน้าจอ** (Digital Screen, เว็บไซต์, แอปพลิเคชัน, สื่อ โซเชียลมีเดีย) สีจะสดใสสว่างกว่า
+                        </p>
+                        <div class="bg-slate-900 text-slate-300 p-3 rounded-lg text-xs font-mono">
+                            Document Profile: Web / Mobile / Screen
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-6 bg-slate-50">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-3 h-3 rounded-full bg-cyan-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-pink-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-slate-900"></span>
+                            <h3 class="font-bold text-slate-900 text-lg ml-1">CMYK Color Mode</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            ใช้สำหรับ **งานสิ่งพิมพ์** (Print, โบรชัวร์, นามบัตร, ป้ายไบนิล, บรรจุภัณฑ์) สีจะดูอิ่มและตรงกับหมึกพิมพ์จริง
+                        </p>
+                        <div class="bg-slate-900 text-slate-300 p-3 rounded-lg text-xs font-mono">
+                            Document Profile: Print / Press
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- TAB 2: PATHFINDER SIMULATOR (จำลองการรวมรูปทรง) -->
+        <div id="tab-pathfinder" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+                <div class="max-w-3xl mb-6">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <i data-lucide="shapes" class="text-ai-orange"></i> เครื่องมือจำลอง Pathfinder
+                    </h2>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Pathfinder คือการตัด ดึง หรือผสานรูปทรงมากกว่า 2 ชิ้นเข้าด้วยกัน เพื่อสร้างเชปใหม่ ทดลองกดปุ่มด้านล่างเพื่อสังเกตผลลัพธ์ของการดัดแปลง SVG สองชิ้น!
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 items-center">
+                    <!-- Control Panel -->
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">เลือกคำสั่ง Pathfinder</label>
+                        
+                        <button onclick="applyPathfinder('unite')" id="pf-unite" class="pf-btn w-full p-3 bg-slate-100 hover:bg-orange-50 border border-slate-200 rounded-xl font-medium text-slate-800 text-left flex items-center justify-between transition-all">
+                            <span class="flex items-center gap-2"><i data-lucide="combine" class="w-4 h-4 text-ai-orange"></i> Unite (รวมรูปทรง)</span>
+                            <span class="text-xs text-slate-400">ผสานเข้าด้วยกัน</span>
+                        </button>
+
+                        <button onclick="applyPathfinder('minus-front')" id="pf-minus-front" class="pf-btn w-full p-3 bg-slate-100 hover:bg-orange-50 border border-slate-200 rounded-xl font-medium text-slate-800 text-left flex items-center justify-between transition-all">
+                            <span class="flex items-center gap-2"><i data-lucide="minus-circle" class="w-4 h-4 text-ai-orange"></i> Minus Front (ตัดชิ้นบน)</span>
+                            <span class="text-xs text-slate-400">เอาส่วนบนเจาะส่วนล่าง</span>
+                        </button>
+
+                        <button onclick="applyPathfinder('intersect')" id="pf-intersect" class="pf-btn w-full p-3 bg-slate-100 hover:bg-orange-50 border border-slate-200 rounded-xl font-medium text-slate-800 text-left flex items-center justify-between transition-all">
+                            <span class="flex items-center gap-2"><i data-lucide="intersect" class="w-4 h-4 text-ai-orange"></i> Intersect (เอาเฉพาะส่วนซ้อน)</span>
+                            <span class="text-xs text-slate-400">เหลือตรงกลาง</span>
+                        </button>
+
+                        <button onclick="applyPathfinder('exclude')" id="pf-exclude" class="pf-btn w-full p-3 bg-slate-100 hover:bg-orange-50 border border-slate-200 rounded-xl font-medium text-slate-800 text-left flex items-center justify-between transition-all">
+                            <span class="flex items-center gap-2"><i data-lucide="square-asterisk" class="w-4 h-4 text-ai-orange"></i> Exclude (เจาะรูส่วนซ้อน)</span>
+                            <span class="text-xs text-slate-400">เว้นตรงกลางออก</span>
+                        </button>
+
+                        <button onclick="applyPathfinder('reset')" class="w-full p-2.5 bg-slate-200 hover:bg-slate-300 rounded-xl font-medium text-slate-700 text-xs text-center transition-all mt-4">
+                            🔄 รีเซ็ตเป็นค่าเริ่มต้น
+                        </button>
+                    </div>
+
+                    <!-- Canvas Interactive SVG Preview -->
+                    <div class="lg:col-span-2 bg-slate-900 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[320px] relative shadow-inner">
+                        <div id="pathfinder-demo-area" class="w-64 h-64 relative flex items-center justify-center">
+                            <!-- Canvas will be dynamically rendered via JS -->
+                        </div>
+                        <div id="pathfinder-desc" class="mt-4 text-slate-400 text-sm text-center font-mono">
+                            คำสั่งปัจจุบัน: ต้นฉบับ (ยังไม่รวมรูปทรง)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: PEN TOOL PRACTICE (ฝึกดัดเส้น Pen Tool) -->
+        <div id="tab-pentool" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+                <div class="max-w-3xl mb-6">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <i data-lucide="pen-tool" class="text-ai-orange"></i> ห้องปฏิบัติการฝึก Bezier Curve (Pen Tool)
+                    </h2>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        ลองลากจุดควบคุม (Direction Handle) เพื่อเรียนรู้ว่าแนวแรงกระทำและมุมก้านแฮนเดิล ส่งผลต่อความโค้งของเส้นเวกเตอร์อย่างไร!
+                    </p>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl p-6 relative overflow-hidden shadow-inner flex flex-col items-center">
+                    <!-- SVG Canvas for Bezier Curve Practice -->
+                    <svg id="bezier-canvas" class="w-full max-w-xl h-72 border border-slate-800 rounded-xl bg-slate-950/80 touch-none select-none">
+                        <!-- Target Reference Curve (Dotted) -->
+                        <path id="target-path" d="M 100 200 C 150 50, 350 50, 400 200" stroke="#334155" stroke-width="3" stroke-dasharray="6,6" fill="none" />
+                        
+                        <!-- User Dynamic Curve -->
+                        <path id="user-path" d="M 100 200 C 150 150, 350 150, 400 200" stroke="#FF9A00" stroke-width="4" fill="none" />
+                        
+                        <!-- Control Handle Lines -->
+                        <line id="line-h1" x1="100" y1="200" x2="150" y2="150" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2,2" />
+                        <line id="line-h2" x1="400" y1="200" x2="350" y2="150" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2,2" />
+
+                        <!-- Start and End Anchor Points -->
+                        <rect x="94" y="194" width="12" height="12" fill="#FFFFFF" stroke="#0F172A" stroke-width="2" />
+                        <rect x="394" y="194" width="12" height="12" fill="#FFFFFF" stroke="#0F172A" stroke-width="2" />
+
+                        <!-- Interactive Control Handles (Draggable) -->
+                        <circle id="handle1" class="bezier-handle" cx="150" cy="150" r="8" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
+                        <circle id="handle2" class="bezier-handle" cx="350" cy="150" r="8" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
+                    </svg>
+
+                    <div class="mt-4 flex flex-wrap items-center justify-between w-full max-w-xl text-xs text-slate-400">
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span> จุด Handle (ลากเพื่อดัดเส้น)</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-ai-orange"></span> เส้น Path เวกเตอร์จริง</span>
+                        <button onclick="resetBezier()" class="text-ai-orange hover:underline">รีเซ็ตตำแหน่ง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: SHORTCUTS CHEAT SHEET (ตารางคีย์ลัด) -->
+        <div id="tab-shortcuts" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 mb-1 flex items-center gap-2">
+                            <i data-lucide="command" class="text-ai-orange"></i> คีย์ลัดที่ต้องรู้ (Shortcuts Cheat Sheet)
+                        </h2>
+                        <p class="text-slate-500 text-sm">ช่วยให้คุณทำงานกราฟิกได้เร็วขึ้นเป็น 2 เท่า</p>
+                    </div>
+
+                    <!-- OS Toggle -->
+                    <div class="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold self-start sm:self-auto">
+                        <button id="os-win-btn" onclick="setOS('win')" class="px-3 py-1.5 rounded-lg bg-white shadow-sm text-slate-800 transition-all">Windows (Ctrl)</button>
+                        <button id="os-mac-btn" onclick="setOS('mac')" class="px-3 py-1.5 rounded-lg text-slate-500 transition-all">Mac (Cmd)</button>
+                    </div>
+                </div>
+
+                <!-- Search Input -->
+                <div class="mb-6 relative">
+                    <i data-lucide="search" class="w-5 h-5 absolute left-3.5 top-3 text-slate-400"></i>
+                    <input type="text" id="shortcut-search" onkeyup="filterShortcuts()" placeholder="ค้นหาคีย์ลัด เช่น Pen, Selection, Duplicate, Zoom..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-ai-orange focus:bg-white transition-all">
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" id="shortcut-grid">
+                    <!-- Shortcuts will be dynamically injected via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: WORKSHOP (เวิร์กชอปสร้างโลโก้เบื้องต้น) -->
+        <div id="tab-workshop" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+                <div class="max-w-3xl mb-8">
+                    <span class="text-xs font-bold text-ai-orange bg-orange-100 px-3 py-1 rounded-full">Step-by-step Hands-on</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-2 mb-2">เวิร์กชอป: สร้างโลโก้รูปนกด้วย Shapes & Pathfinder</h2>
+                    <p class="text-slate-600 text-sm">
+                        เรียนรู้ขั้นตอนจริงในการออกแบบกราฟิกเวกเตอร์ง่ายๆ ด้วยการนำรูปทรงพื้นฐานมาดัดแปลง
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Step 1 -->
+                    <div class="flex gap-4 p-5 rounded-xl border border-slate-200 bg-slate-50/50">
+                        <div class="w-8 h-8 rounded-full bg-ai-orange text-white font-bold flex items-center justify-center shrink-0">
+                            1
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-base mb-1">สร้างวงกลม 2 วงเหลื่อมกัน</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                กดเครื่องมือ Ellipse Tool (<kbd class="px-1.5 py-0.5 bg-slate-200 rounded font-mono text-xs">L</kbd>) จากนั้นกด <kbd class="px-1.5 py-0.5 bg-slate-200 rounded font-mono text-xs">Shift</kbd> ค้างไว้แล้วลากเพื่อสร้างวงกลมสมบูรณ์แบบ วาด 2 วงให้มีขนาดต่างกันแล้ววางเหลื่อมซ้อนกัน
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex gap-4 p-5 rounded-xl border border-slate-200 bg-slate-50/50">
+                        <div class="w-8 h-8 rounded-full bg-ai-orange text-white font-bold flex items-center justify-center shrink-0">
+                            2
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-base mb-1">ใช้ Pathfinder ตัดส่วนเกิน</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                คลุมเลือกวงกลมทั้งสองด้วย Selection Tool (<kbd class="px-1.5 py-0.5 bg-slate-200 rounded font-mono text-xs">V</kbd>) แล้วเปิดพาเนล Pathfinder กดปุ่ม <strong>Minus Front</strong> เพื่อตัดวงกลมบนออก ได้รูปทรงเสี้ยวจันทร์สวยงาม
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex gap-4 p-5 rounded-xl border border-slate-200 bg-slate-50/50">
+                        <div class="w-8 h-8 rounded-full bg-ai-orange text-white font-bold flex items-center justify-center shrink-0">
+                            3
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-base mb-1">ใส่สีแบบ Gradation (ไล่เฉดสี)</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                เปิดพาเนล Gradient (<kbd class="px-1.5 py-0.5 bg-slate-200 rounded font-mono text-xs">Ctrl + F9</kbd>) เลือกโทนสีส้มไปเหลือง เพื่อเพิ่มมิติความนูนและความทันสมัยให้กับโลโก้
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flex gap-4 p-5 rounded-xl border border-slate-200 bg-slate-50/50">
+                        <div class="w-8 h-8 rounded-full bg-ai-orange text-white font-bold flex items-center justify-center shrink-0">
+                            4
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-base mb-1">ใส่ชื่อแบรนด์ด้วย Type Tool</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                กดเครื่องมือ Type Tool (<kbd class="px-1.5 py-0.5 bg-slate-200 rounded font-mono text-xs">T</kbd>) พิมพ์ชื่อแบรนด์ด้านข้าง ปรับฟอนต์ให้โมเดิร์น แล้วกดจัดวางองค์ประกอบให้สมดุล
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: QUIZ (แบบทดสอบวัดความเข้าใจ) -->
+        <div id="tab-quiz" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm max-w-3xl mx-auto">
+                <div class="text-center mb-8">
+                    <span class="text-xs font-bold text-ai-orange bg-orange-100 px-3 py-1 rounded-full">Interactive Assessment</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-2 mb-1">แบบทดสอบวัดความรู้ Illustrator เบื้องต้น</h2>
+                    <p class="text-slate-500 text-sm">ทดสอบความเข้าใจ 5 ข้อสั้นๆ เพื่อรับคะแนนสรุป</p>
+                </div>
+
+                <div id="quiz-container" class="space-y-6">
+                    <!-- Questions dynamically rendered here -->
+                </div>
+
+                <div id="quiz-result" class="hidden text-center py-8 space-y-4 border-t border-slate-200 mt-6">
+                    <div class="w-16 h-16 bg-orange-100 text-ai-orange rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+                        🏆
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900">สรุปคะแนนสอบของคุณ</h3>
+                    <p id="quiz-score-text" class="text-lg text-slate-600 font-medium">คุณได้ 0 จาก 5 คะแนน</p>
+                    <button onclick="resetQuiz()" class="bg-ai-orange hover:bg-ai-darkOrange text-white font-medium px-6 py-2.5 rounded-xl transition-all shadow-md">
+                        ลองทำใหม่อีกครั้ง
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs space-y-2">
+            <p class="font-medium text-slate-300">Adobe Illustrator Beginner Educational Interactive Guide</p>
+            <p>ออกแบบมาเพื่อการเรียนการสอนแบบคลีน สวยงาม และใช้งานง่ายในทุกอุปกรณ์</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // OS State for shortcuts
+        let currentOS = 'win';
+
+        // Tab Navigation Logic
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Remove active style from all nav buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Show target content
+            const targetContent = document.getElementById('tab-' + tabId);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+
+            // Highlight nav button
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // Refresh dynamic components if needed
+            if(tabId === 'pathfinder') {
+                applyPathfinder('reset');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Pathfinder Simulator Logic
+        function applyPathfinder(mode) {
+            const container = document.getElementById('pathfinder-demo-area');
+            const desc = document.getElementById('pathfinder-desc');
+
+            let svgContent = '';
+
+            switch (mode) {
+                case 'unite':
+                    svgContent = `
+                        <svg class="w-full h-full" viewBox="0 0 200 200">
+                            <path d="M 40,40 H 130 V 70 A 50,50 0 1,1 70,130 H 40 Z" fill="#FF9A00" stroke="#FFFFFF" stroke-width="2" />
+                            <circle cx="120" cy="120" r="50" fill="#FF9A00" stroke="#FFFFFF" stroke-width="2" />
+                        </svg>`;
+                    desc.innerText = 'คำสั่ง: Unite (ผสานสี่เหลี่ยมและวงกลมเป็นชิ้นเดียว)';
+                    break;
+                case 'minus-front':
+                    svgContent = `
+                        <svg class="w-full h-full" viewBox="0 0 200 200">
+                            <path d="M 40,40 H 140 V 140 H 40 Z M 70,70 A 50,50 0 1,0 170,70 A 50,50 0 1,0 70,70" fill-rule="evenodd" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
+                        </svg>`;
+                    desc.innerText = 'คำสั่ง: Minus Front (เจาะตัดรูปทรงสี่เหลี่ยมตามรอยวงกลมด้านบน)';
+                    break;
+                case 'intersect':
+                    svgContent = `
+                        <svg class="w-full h-full" viewBox="0 0 200 200">
+                            <path d="M 70,70 H 140 V 140 A 50,50 0 0,1 70,70" fill="#22C55E" stroke="#FFFFFF" stroke-width="2" />
+                        </svg>`;
+                    desc.innerText = 'คำสั่ง: Intersect (เหลือไว้เฉพาะพื้นที่ที่ซ้อนทับกัน)';
+                    break;
+                case 'exclude':
+                    svgContent = `
+                        <svg class="w-full h-full" viewBox="0 0 200 200">
+                            <rect x="40" y="40" width="100" height="100" fill="#A855F7" opacity="0.9" />
+                            <circle cx="120" cy="120" r="50" fill="#A855F7" opacity="0.9" />
+                            <path d="M 70,70 H 140 V 140 A 50,50 0 0,1 70,70" fill="#0F172A" />
+                        </svg>`;
+                    desc.innerText = 'คำสั่ง: Exclude (เจาะว่างตรงบริเวณพื้นที่ซ้อนทับ)';
+                    break;
+                default:
+                    svgContent = `
+                        <svg class="w-full h-full" viewBox="0 0 200 200">
+                            <rect x="40" y="40" width="100" height="100" fill="#38BDF8" opacity="0.8" rx="4" />
+                            <circle cx="120" cy="120" r="50" fill="#FF9A00" opacity="0.8" />
+                        </svg>`;
+                    desc.innerText = 'ต้นฉบับ: สี่เหลี่ยมซ้อนทับกับวงกลม';
+                    break;
+            }
+
+            container.innerHTML = svgContent;
+        }
+
+        // Interactive Bezier Curve Canvas Handler
+        const h1 = document.getElementById('handle1');
+        const h2 = document.getElementById('handle2');
+        const userPath = document.getElementById('user-path');
+        const lineH1 = document.getElementById('line-h1');
+        const lineH2 = document.getElementById('line-h2');
+
+        let activeHandle = null;
+
+        function updateBezierPath() {
+            const x1 = h1.getAttribute('cx');
+            const y1 = h1.getAttribute('cy');
+            const x2 = h2.getAttribute('cx');
+            const y2 = h2.getAttribute('cy');
+
+            userPath.setAttribute('d', `M 100 200 C ${x1} ${y1}, ${x2} ${y2}, 400 200`);
+            lineH1.setAttribute('x2', x1);
+            lineH1.setAttribute('y2', y1);
+            lineH2.setAttribute('x2', x2);
+            lineH2.setAttribute('y2', y2);
+        }
+
+        function getMousePos(svg, evt) {
+            const rect = svg.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
+
+        const canvasSvg = document.getElementById('bezier-canvas');
+
+        [h1, h2].forEach(handle => {
+            handle.addEventListener('mousedown', (e) => {
+                activeHandle = handle;
+            });
+            handle.addEventListener('touchstart', (e) => {
+                activeHandle = handle;
+            }, { passive: true });
+        });
+
+        window.addEventListener('mouseup', () => activeHandle = null);
+        window.addEventListener('touchend', () => activeHandle = null);
+
+        canvasSvg.addEventListener('mousemove', (e) => {
+            if (!activeHandle) return;
+            const pos = getMousePos(canvasSvg, e);
+            activeHandle.setAttribute('cx', Math.max(10, Math.min(490, pos.x)));
+            activeHandle.setAttribute('cy', Math.max(10, Math.min(290, pos.y)));
+            updateBezierPath();
+        });
+
+        canvasSvg.addEventListener('touchmove', (e) => {
+            if (!activeHandle || !e.touches[0]) return;
+            const touch = e.touches[0];
+            const pos = getMousePos(canvasSvg, touch);
+            activeHandle.setAttribute('cx', Math.max(10, Math.min(490, pos.x)));
+            activeHandle.setAttribute('cy', Math.max(10, Math.min(290, pos.y)));
+            updateBezierPath();
+        }, { passive: true });
+
+        function resetBezier() {
+            h1.setAttribute('cx', 150);
+            h1.setAttribute('cy', 150);
+            h2.setAttribute('cx', 350);
+            h2.setAttribute('cy', 150);
+            updateBezierPath();
+        }
+
+        const shortcutsData = [
+            { name: "Selection Tool", keyWin: "V", keyMac: "V", category: "Tools" },
+            { name: "Direct Selection", keyWin: "A", keyMac: "A", category: "Tools" },
+            { name: "Pen Tool", keyWin: "P", keyMac: "P", category: "Tools" },
+            { name: "Type Tool", keyWin: "T", keyMac: "T", category: "Tools" },
+            { name: "Rectangle Tool", keyWin: "M", keyMac: "M", category: "Tools" },
+            { name: "Ellipse Tool", keyWin: "L", keyMac: "L", category: "Tools" },
+            { name: "Eyedropper (ดูดสี)", keyWin: "I", keyMac: "I", category: "Tools" },
+            { name: "Undo (ย้อนกลับ)", keyWin: "Ctrl + Z", keyMac: "Cmd + Z", category: "General" },
+            { name: "Redo (ทำซ้ำ)", keyWin: "Ctrl + Shift + Z", keyMac: "Cmd + Shift + Z", category: "General" },
+            { name: "Duplicate (สำเนา)", keyWin: "Alt + Drag", keyMac: "Option + Drag", category: "General" },
+            { name: "Group Shapes", keyWin: "Ctrl + G", keyMac: "Cmd + G", category: "Action" },
+            { name: "Ungroup", keyWin: "Ctrl + Shift + G", keyMac: "Cmd + Shift + G", category: "Action" },
+            { name: "Zoom In", keyWin: "Ctrl + (+)", keyMac: "Cmd + (+)", category: "View" },
+            { name: "Zoom Out", keyWin: "Ctrl + (-)", keyMac: "Cmd + (-)", category: "View" },
+            { name: "Fit to Screen", keyWin: "Ctrl + 0", keyMac: "Cmd + 0", category: "View" }
+        ];
+
+        function setOS(os) {
+            currentOS = os;
+            document.getElementById('os-win-btn').className = os === 'win' 
+                ? "px-3 py-1.5 rounded-lg bg-white shadow-sm text-slate-800 transition-all" 
+                : "px-3 py-1.5 rounded-lg text-slate-500 transition-all";
+            document.getElementById('os-mac-btn').className = os === 'mac' 
+                ? "px-3 py-1.5 rounded-lg bg-white shadow-sm text-slate-800 transition-all" 
+                : "px-3 py-1.5 rounded-lg text-slate-500 transition-all";
+            renderShortcuts();
+        }
+
+        function renderShortcuts(filterText = '') {
+            const grid = document.getElementById('shortcut-grid');
+            grid.innerHTML = '';
+
+            const filtered = shortcutsData.filter(item => 
+                item.name.toLowerCase().includes(filterText.toLowerCase()) ||
+                item.keyWin.toLowerCase().includes(filterText.toLowerCase()) ||
+                item.category.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center text-slate-400 py-6">ไม่พบคีย์ลัดที่ตรงกับคำค้นหา</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const key = currentOS === 'win' ? item.keyWin : item.keyMac;
+                const card = document.createElement('div');
+                card.className = "p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="font-medium text-slate-900 text-sm">${item.name}</div>
+                        <span class="text-[10px] text-slate-400 font-semibold uppercase">${item.category}</span>
+                    </div>
+                    <kbd class="px-2.5 py-1 bg-white border border-slate-300 rounded-lg text-xs font-mono text-slate-800 font-bold shadow-xs">
+                        ${key}
+                    </kbd>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterShortcuts() {
+            const val = document.getElementById('shortcut-search').value;
+            renderShortcuts(val);
+        }
+
+        const quizQuestions = [
+            {
+                q: "1. ภาพประเภท Vector ใน Illustrator มีจุดเด่นคือข้อใด?",
+                options: [
+                    "ยิ่งขยายยิ่งเห็นพิกเซลเป็นตารางชัดขึ้น",
+                    "ย่อ/ขยายได้ไม่จำกัด ภาพไม่แตก และมีความคมชัดสูงเสมอ",
+                    "เหมาะสำหรับตกแต่งภาพถ่ายบุคคลโดยเฉพาะ",
+                    "มีขนาดไฟล์ใหญ่กว่าไฟล์ภาพแรสเตอร์เสมอ"
+                ],
+                ans: 1
+            },
+            {
+                q: "2. หากต้องการคลิกเลือกย้ายหรือเปลี่ยนขนาดวัตถุ 'ทั้งชิ้น' ควรใช้เครื่องมือใด?",
+                options: [
+                    "Direct Selection Tool (A)",
+                    "Pen Tool (P)",
+                    "Selection Tool (V)",
+                    "Magic Wand Tool"
+                ],
+                ans: 2
+            },
+            {
+                q: "3. หากออกแบบโลโก้สำหรับเตรียมส่งโรงพิมพ์ สิ่งพิมพ์ นามบัตร ควรเลือกโหมดสีใด?",
+                options: [
+                    "RGB Color Mode",
+                    "CMYK Color Mode",
+                    "Grayscale Mode",
+                    "HSB Color Mode"
+                ],
+                ans: 1
+            },
+            {
+                q: "4. คำสั่งใดใน Pathfinder ที่ใช้สำหรับผสานรูปทรงหลายชิ้นเข้าด้วยกันเป็นชิ้นเดียว?",
+                options: [
+                    "Minus Front",
+                    "Intersect",
+                    "Exclude",
+                    "Unite"
+                ],
+                ans: 3
+            },
+            {
+                q: "5. คีย์ลัดใดใช้ในการจัดกลุ่มวัตถุ (Group Objects) บนระบบปฏิบัติการ Windows?",
+                options: [
+                    "Ctrl + G",
+                    "Ctrl + A",
+                    "Ctrl + Z",
+                    "Ctrl + Shift + G"
+                ],
+                ans: 0
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizQuestions.forEach((qObj, index) => {
+                const qCard = document.createElement('div');
+                qCard.className = "p-5 border border-slate-200 rounded-xl bg-slate-50/60 space-y-3";
+                
+                let optionsHtml = '';
+                qObj.options.forEach((opt, optIndex) => {
+                    optionsHtml += `
+                        <label class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-orange-50/50 transition-all text-sm font-medium text-slate-700">
+                            <input type="radio" name="question-${index}" value="${optIndex}" class="w-4 h-4 text-ai-orange focus:ring-ai-orange border-slate-300">
+                            <span>${opt}</span>
+                        </label>
+                    `;
+                });
+
+                qCard.innerHTML = `
+                    <div class="font-bold text-slate-900 text-base">${qObj.q}</div>
+                    <div class="space-y-2">${optionsHtml}</div>
+                `;
+                container.appendChild(qCard);
+            });
+
+            // Submit Button
+            const submitBtn = document.createElement('button');
+            submitBtn.className = "w-full py-3 bg-ai-orange hover:bg-ai-darkOrange text-white font-bold rounded-xl shadow-md transition-all mt-6";
+            submitBtn.innerText = "ส่งคำตอบและดูผลคะแนน";
+            submitBtn.onclick = checkQuizAnswers;
+            container.appendChild(submitBtn);
+        }
+
+        function checkQuizAnswers() {
+            let score = 0;
+            quizQuestions.forEach((qObj, index) => {
+                const selected = document.querySelector(`input[name="question-${index}"]:checked`);
+                if (selected && parseInt(selected.value) === qObj.ans) {
+                    score++;
+                }
+            });
+
+            document.getElementById('quiz-score-text').innerText = `คุณทำได้ ${score} จากทั้งหมด ${quizQuestions.length} คะแนน`;
+            document.getElementById('quiz-result').classList.remove('hidden');
+            window.scrollTo({ top: document.getElementById('quiz-result').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-result').classList.add('hidden');
+            renderQuiz();
+        }
+
+        // On Page Load Initialization
+        window.onload = function() {
+            renderShortcuts();
+            renderQuiz();
+            applyPathfinder('reset');
+        };
+    </script>
+</body>
+</html>
